@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     /*
      UIImageView jest takim kontenerem na UIImage - Widokiem, w którym jest zagnieżdżony obraz.
      Jeśli imageView.contenMode == .scaleAspectFill rozmiar zdjęcia jest zmieniany tak, żeby całe się mieściło w UIImageView i były zachowane proporcje zdjęcia.
-     Jeśli imageView.contentMode == .scaleApectFill rozmiar zdjęcia jest tak zmieniany, żeby było w UIImageView była widoczną jak największa powierzchnia zdjęcia, ale żeby UIImageView było wypełnione w całości i były zachowane proporcje zdjęcia.
+     Jeśli imageView.contentMode == .scaleApectFill rozmiar zdjęcia jest tak zmieniany, żeby w UIImageView była widoczna jak największa powierzchnia zdjęcia, ale żeby UIImageView było wypełnione w całości i były zachowane proporcje zdjęcia.
      I tutaj się pojawia problem, że gdy zdjęcie nie ma takich proporcji jak UIImageView, część zdjęcia wystaje poza widok i dlatego jest wrażenie, że zignorowane jest safeArea.
      
      Rozwiązanie
