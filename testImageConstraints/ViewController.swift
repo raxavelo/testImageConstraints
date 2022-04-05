@@ -12,6 +12,18 @@ class ViewController: UIViewController {
   let imageView: UIImageView = {
     let image = UIImage(named: "image")
     let imageView = UIImageView(image: image)
+    
+    /*
+     UIImageView jest takim kontenerem na UIImage - Widokiem, w którym jest zagnieżdżony obraz.
+     Jeśli imageView.contenMode == .scaleAspectFill rozmiar zdjęcia jest zmieniany tak, żeby całe się mieściło w UIImageView i były zachowane proporcje zdjęcia.
+     Jeśli imageView.contentMode == .scaleApectFill rozmiar zdjęcia jest tak zmieniany, żeby było w UIImageView była widoczną jak największa powierzchnia zdjęcia, ale żeby UIImageView było wypełnione w całości i były zachowane proporcje zdjęcia.
+     I tutaj się pojawia problem, że gdy zdjęcie nie ma takich proporcji jak UIImageView, część zdjęcia wystaje poza widok i dlatego jest wrażenie, że zignorowane jest safeArea.
+     
+     Rozwiązanie
+     UIImageView ma właściwość clipsToBound: Bool, która określa zachowanie w tej sytuacji. Domyślna wartość to false. Gdy jest true, wystająca poza widok część zdjęcia jest przycinana.
+     */
+    
+    imageView.clipsToBounds = true // O to całe zamieszanie
     imageView.contentMode = .scaleAspectFill
     return imageView
   }()
@@ -24,22 +36,17 @@ class ViewController: UIViewController {
     makeLayout()
   }
   
+  
   func makeLayout() {
     imageView.translatesAutoresizingMaskIntoConstraints = false
     
-    var constraints = [NSLayoutConstraint]()
     
-    //imageView.top = safeArea.top
-    constraints += [NSLayoutConstraint.init(item: imageView, attribute: .top, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0)]
-    
-    //imageView.leading = safeArea.leading
-    constraints += [NSLayoutConstraint.init(item: imageView, attribute: .leading, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .leading, multiplier: 1.0, constant: 0.0)]
-    
-    //imageView.height = safeArea.height * 0.6
-    constraints += [NSLayoutConstraint.init(item: imageView, attribute: .height, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .height, multiplier: 0.6, constant: 0.0)]
-    
-    //imageView.width = imageView.height
-    constraints += [NSLayoutConstraint.init(item: imageView, attribute: .width, relatedBy: .equal, toItem: imageView, attribute: .height, multiplier: 1.0, constant: 0.0)]
+    let constraints = [
+      imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+      imageView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6),
+      imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+    ]
     
     view.addConstraints(constraints)
   }
